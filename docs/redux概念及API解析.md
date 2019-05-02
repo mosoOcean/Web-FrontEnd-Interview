@@ -66,9 +66,13 @@ function reducer(state, action) {
 }
 store.subscribe(listener);
  ```
+ #### react-redux
+ 
+ https://blog.csdn.net/DFF1993/article/details/80410154
  
  #### redux中间件
- 中间件就是一个函数，对store.dispatch方法进行了改造，在发出 Action 和执行 Reducer 这两步之间，添加了其他功能。
+ 
+ 中间件它提供了一个分类处理 action 的机会。在 middleware 中，你可以检阅每一个流过的 action，挑选出特定类型的 action 进行相应操作，给你 一次改变 action 的机会。它就是一个函数，对store.dispatch方法进行了改造，在发出 Action 和执行 Reducer 这两步之间，添加了其他功能。
  
  ```
  let next = store.dispatch;
@@ -78,4 +82,40 @@ store.dispatch = function dispatchAndLog(action) {
   console.log('next state', store.getState());
 }
  ```
+ 
+#### 相关问题
+##### Redux如何实现多个组件之间的通信，多个组件使用相同状态如何进行管理？
+Redux 通过传入reducer参数至createStore方法生成一个数据容器store，这个store有以下功能：
+
+• 提供getState()方法获取state；
+ 
+• 提供dispatch(action)方法触发Reducer的自动执行，更新state； 
+
+• 通过subscribe(listener)注册监听器，监听state变化，state一旦发生改变就会触发store的更新，然后把状态丢给想要这个状态的组件，最终view会根据store数据的更新刷新界面; 
+
+• 通过subscribe(listener)返回的函数注销监听器
+
+似发布订阅模式, 一个地方修改了这个值, 其他所有使用了这个相同状态的地方也会更改。
+
+##### 多个组件之间如何拆分各自的state，每块小的组件有自己的状态，它们之间还有一些公共的状态需要维护，如何思考这块?
+
+##### redux中间件的认识？
+* 为什么要用到中间件？
+https://blog.csdn.net/zk65645/article/details/62215500
+https://segmentfault.com/a/1190000016668365
+https://blog.csdn.net/xiangzhihong8/article/details/81295266
+https://segmentfault.com/a/1190000010757370
+https://segmentfault.com/a/1190000015773713
+http://www.mamicode.com/info-detail-2141523.html
+
+
+* redux如何提供插拔式中间件功能的能力支持（中间件原理）？
+
+
+* 如何实现一个中间件？
+
+
+
+
+ 
  
