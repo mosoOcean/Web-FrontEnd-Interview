@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style type="text/css">
+      #level0 {
+        /* width: 500px;
+        height: 500px; */
+        position: relative;
+      }
+
+      #level1-0 {
+        position: absolute;
+        z-index: 1;
+        background: red;
+        width: 500px;
+        height: 500px;
+      }
+
+      #level1-1 {
+        background: green;
+        width: 500px;
+        height: 500px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="level0">
+      <div id="level1-0">
+      </div>
+      <div id="level1-1">
+      </div> 
+    </div>
+  </body>
+  <script type="text/javascript">
+
+    var level10 = document.getElementById("level1-0");
+    var level11 = document.getElementById("level1-1");
+
+
+    level10.addEventListener('touchstart', function(e) {
+      level10.style.display = 'none';
+    });
+
+    level11.onclick = function() {
+      console.log('level11莫名被点击了');
+    }
+
+  </script>
+</html>
+<!-- 点透问题 -->
+<!-- 点透发生的条件，
+
+A 和 B不是后代继承关系(如果是后代继承关系的话，就直接是冒泡子类的话题了)
+A发生touch， A touch后立即消失， B事件绑定click
+A z-index大于B，即A显示在B浮层之上
+
+点透发生的理由:  当手指触摸到屏幕的时候，系统生成两个事件，一个是touch 一个是click，touch先执行，touch执行完成后，A从文档树上面消失了，而且由于移动端click还有延迟200-300ms的关系，当系统要触发click的时候，发现在用户点击的位置上面，目前离用户最近的元素是B，所以就直接把click事件作用在B元素上面了.
+
+-->
+<!-- 解决办法 -->
+<!-- touch事件发生在click之前，所以只要在touch事件的某个处理函数中 执行 e.preverDefault即可， 一般我们在touchend中执行 -->
